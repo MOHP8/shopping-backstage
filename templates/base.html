@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!--        <meta name="description" content="左右结构项目，属于大人员的社交工具">-->
+    <meta name="keywords" content="左右结构项目 社交 占座 ">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <title>Bootstrap左右结构响应式后台管理模板</title>
+    <script src="static/js/jquery.min.js"></script>
+    <script src="static/js/bootstrap.min.js"></script>
+    <script>
+        $(function() {
+            $(".meun-item").click(function() {
+                $(".meun-item").removeClass("meun-item-active");
+                $(this).addClass("meun-item-active");
+                var itmeObj = $(".meun-item").find("img");
+                itmeObj.each(function() {
+                    var items = $(this).attr("src");
+                    items = items.replace("_grey.png", ".png");
+                    items = items.replace(".png", "_grey.png")
+                    $(this).attr("src", items);
+                });
+                var attrObj = $(this).find("img").attr("src");
+                ;
+                attrObj = attrObj.replace("_grey.png", ".png");
+                $(this).find("img").attr("src", attrObj);
+            });
+            $("#topAD").click(function() {
+                $("#topA").toggleClass(" glyphicon-triangle-right");
+                $("#topA").toggleClass(" glyphicon-triangle-bottom");
+            });
+            $("#topBD").click(function() {
+                $("#topB").toggleClass(" glyphicon-triangle-right");
+                $("#topB").toggleClass(" glyphicon-triangle-bottom");
+            });
+            $("#topCD").click(function() {
+                $("#topC").toggleClass(" glyphicon-triangle-right");
+                $("#topC").toggleClass(" glyphicon-triangle-bottom");
+            });
+            $(".toggle-btn").click(function() {
+                $("#leftMeun").toggleClass("show");
+                $("#rightContent").toggleClass("pd0px");
+            })
+        })
+    </script>
+
+    <script src="static/js/html5shiv.min.js"></script>
+    <script src="static/js/respond.min.js"></script>
+
+    <link href="static/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="static/css/common.css"/>
+    <link rel="stylesheet" type="text/css" href="static/css/slide.css"/>
+    <link rel="stylesheet" type="text/css" href="static/css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="static/css/flat-ui.min.css"/>
+    <link rel="stylesheet" type="text/css" href="static/css/jquery.nouislider.css">
+</head>
+<body>
+
+<!-- 左侧菜单栏目块 -->
+<div class="leftMeun" id="leftMeun">
+
+    <div id="logoDiv">
+        <p id="logoP"><img id="logo" alt="左右结构项目" src="static/images/logo.png"><span>訂單商品管理</span></p>
+    </div>
+    <div id="personInfor">
+        <p id="userName">登錄名稱</p>
+        <p><span></span></p>
+        <p>
+            <a>退出登录</a>
+        </p>
+    </div>
+    <div class="meun-title">帳號管理</div>
+    <div class="meun-item meun-item-active" href="#sour" aria-controls="sour" role="tab" data-toggle="tab"><img
+            src="static/images/icon_source.png">資源管理
+    </div>
+    <div class="meun-item" href="#char" aria-controls="char" role="tab" data-toggle="tab"><img
+            src="static/images/icon_chara_grey.png">權限管理
+    </div>
+    <div class="meun-item" href="#user" aria-controls="user" role="tab" data-toggle="tab"><img
+            src="static/images/icon_user_grey.png">會員管理
+    </div>
+    <div class="meun-item" href="#chan" aria-controls="chan" role="tab" data-toggle="tab"><img
+            src="static/images/icon_change_grey.png">修改密碼
+    </div>
+    <div class="meun-title">商品管理</div>
+<!--    <div class="meun-item" href="#abc" aria-controls="abc" role="tab" data-toggle="tab"><img-->
+<!--            src="static/images/icon_house_grey.png">全部-->
+<!--    </div>-->
+    <a class="meun-item" href="{{ url_for('main_bp.all_products') }}" aria-controls="abc" role="tab" data-toggle="tab"><img
+            src="static/images/icon_house_grey.png">全部
+    </a>
+<!--    <div class="meun-item" href="#ggg" aria-controls="ggg" role="tab" data-toggle="tab"><img-->
+<!--            src="static/images/icon_house_grey.png">架上商品-->
+<!--    </div>-->
+<!--    <div class="meun-item" href="#regu" aria-controls="regu" role="tab" data-toggle="tab"><img-->
+<!--            src="static/images/icon_rule_grey.png">已售完-->
+<!--    </div>-->
+<!--    &lt;!&ndash;                <div class="meun-item" href="#stud" aria-controls="stud" role="tab" data-toggle="tab"><img src="static/images/icon_card_grey.png">審核中</div>&ndash;&gt;-->
+<!--    <div class="meun-item" href="#sitt" aria-controls="sitt" role="tab" data-toggle="tab"><img-->
+<!--            src="static/images/icon_char_grey.png">未上架-->
+<!--    </div>-->
+    <div class="meun-title">訂單管理</div>
+    <div class="meun-item" href="#scho" aria-controls="scho" role="tab" data-toggle="tab"><img
+            src="static/images/icon_house_grey.png">全部
+    </div>
+<!--    <div class="meun-item" href="#sss" aria-controls="sss" role="tab" data-toggle="tab"><img-->
+<!--            src="static/images/icon_house_grey.png">尚未付款-->
+<!--    </div>-->
+<!--    <div class="meun-item" href="#regu" aria-controls="regu" role="tab" data-toggle="tab"><img-->
+<!--            src="static/images/icon_rule_grey.png">待處理-->
+<!--    </div>-->
+<!--    <div class="meun-item" href="#stud" aria-controls="stud" role="tab" data-toggle="tab"><img-->
+<!--            src="static/images/icon_card_grey.png">已完成-->
+<!--    </div>-->
+<!--    <div class="meun-item" href="#sitt" aria-controls="sitt" role="tab" data-toggle="tab"><img-->
+<!--            src="static/images/icon_char_grey.png">不成立-->
+<!--    </div>-->
+</div>
+
+
+{% block content %}{% endblock %}
+
+<!--页码块-->
+<footer class="footer">
+    <ul class="pagination">
+        <li>
+            <select>
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+                <option>6</option>
+                <option>7</option>
+                <option>8</option>
+                <option>9</option>
+                <option>10</option>
+            </select>
+            页
+        </li>
+        <li class="gray">
+            共20页
+        </li>
+        <li>
+            <i class="glyphicon glyphicon-menu-left">
+            </i>
+        </li>
+        <li>
+            <i class="glyphicon glyphicon-menu-right">
+            </i>
+        </li>
+    </ul>
+</footer>
+</body>
+</html>
