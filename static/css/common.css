@@ -9,6 +9,7 @@ body {
 .container-fluid {
 	padding-left: 0!important;
 }
+
 #wrap {
 	min-width: 100%;
 	position: absolute;

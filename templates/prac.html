@@ -1,0 +1,79 @@
+// 点击删除按钮时的事件处理
+                $('.deleteButton').on('click', function () {
+                    // 获取商品 ID
+                    productIdToDelete = $(this).data('delete-id');
+                    // alert("delete_id", productIdToDelete);
+                    console.log(productIdToDelete);
+                });
+
+                   // 点击删除按钮时的事件处理
+                $('.confirmDelete').on('click', function () {
+                    console.log(productIdToDelete);
+                    // alert(productIdToDelete);
+
+                    // 在这里将 productId 传递到服务端，你可以使用 Ajax 请求
+                    $.ajax({
+                        url:  '{{ url_for('products.delete_product', product_id=0) }}'.replace(0, productIdToDelete),
+                        type: 'POST',
+                        success: function (response) {
+                            console.log(response);
+                            alert('删除成功！');
+                        },
+                        error: function (error) {
+                            console.log(error);
+                            alert('删除失败！');
+                        }
+                    });
+
+                     // 关闭模态窗口
+                    $('#deleteProduct').modal('hide');
+
+                    // 隐藏删除按钮，显示修改按钮
+
+                    var selectedRow = $('.tablebody .row').filter(function() {
+                        var textInFirstCol = $(this).find('.col-xs-2:first').text().trim();
+                        console.log('Text in first column:', textInFirstCol, ',Length:', textInFirstCol.length, typeof textInFirstCol);
+                        console.log('productIdToDelete:', productIdToDelete, ',Length:', productIdToDelete.length, typeof productIdToDelete);
+                        return textInFirstCol === productIdToDelete.toString();
+                    });
+
+                    selectedRow.find('.deleteButton').hide();
+
+                    selectedRow.find('.editButton').hide();
+                    selectedRow.find('.restoreButton').show();
+
+                    selectedRow.find('.restoreButton').css({
+                        'background-color': 'transparent',
+                        'color': '#FF0000',
+                        'border': '1px solid #FF0000'
+                    });
+
+                    // 给恢复按钮添加点击事件处
+                    $('.restoreButton').on('click', function () {
+                        productIdToRestore = $(this).data('restore-id');
+                        console.log(productIdToRestore);
+                        alert(productIdToRestore);
+
+                        // 显示删除按钮，隐藏修改按钮
+                        selectedRow.find('.deleteButton').show();
+                        selectedRow.find('.editButton').show();
+                        selectedRow.find('.restoreButton').hide();
+
+                        // 在这里将 productId 传递到服务端，你可以使用 Ajax 请求
+                        $.ajax({
+                            url: '{{ url_for('products.revive_product', product_id=0) }}'.replace(0, productIdToRestore),
+                            type: 'POST',
+                            success: function (response) {
+                                console.log(response);
+                                alert('恢复成功！');
+                            },
+                            error: function (error) {
+                                console.log(error);
+                                alert('恢复失败！');
+                            }
+                        });
+                    });
+                });
+            });
+        </script>
+    </div>

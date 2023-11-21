@@ -1,0 +1,46 @@
+
+<!-- leftMeun.html -->
+<div id="logoDiv">
+    <p id="logoP"><img id="logo" alt="左右结构项目" src="static/images/logo.png"><span>訂單商品管理</span></p>
+</div>
+<div id="personInfor">
+    <p id="userName">登錄名稱</p>
+    <p><span></span></p>
+    <p>
+        <a>退出登录</a>
+    </p>
+</div>
+<div class="meun-title">帳號管理</div>
+<div class="meun-item" href="#sour" aria-controls="sour" role="tab" data-toggle="tab"><img
+        src="static/images/icon_source.png">資源管理
+</div>
+<div class="meun-item" href="#char" aria-controls="char" role="tab" data-toggle="tab"><img
+        src="static/images/icon_chara_grey.png">權限管理
+</div>
+<div class="meun-item" href="#user" aria-controls="user" role="tab" data-toggle="tab"><img
+        src="static/images/icon_user_grey.png">會員管理
+</div>
+<div class="meun-item" href="#chan" aria-controls="chan" role="tab" data-toggle="tab"><img
+        src="static/images/icon_change_grey.png">修改密碼
+</div>
+<div class="meun-title">商品管理</div>
+<div class="meun-item" data-url="{{ url_for('products.all_products') }}">
+<!--    <div class="meun-item" aria-controls="abc" role="tab" data-toggle="tab" data-url="{{ url_for('products.all_products') }}">-->
+    <img src="static/images/icon_house_grey.png">全部
+</div>
+<div class="meun-title">訂單管理</div>
+<div class="meun-item" href="#scho" aria-controls="scho" role="tab" data-toggle="tab"><img
+        src="static/images/icon_house_grey.png">全部
+</div>
+<!--    <div class="meun-item" href="#sss" aria-controls="sss" role="tab" data-toggle="tab"><img-->
+<!--            src="static/images/icon_house_grey.png">尚未付款-->
+<!--    </div>-->
+<!--    <div class="meun-item" href="#regu" aria-controls="regu" role="tab" data-toggle="tab"><img-->
+<!--            src="static/images/icon_rule_grey.png">待處理-->
+<!--    </div>-->
+<!--    <div class="meun-item" href="#stud" aria-controls="stud" role="tab" data-toggle="tab"><img-->
+<!--            src="static/images/icon_card_grey.png">已完成-->
+<!--    </div>-->
+<!--    <div class="meun-item" href="#sitt" aria-controls="sitt" role="tab" data-toggle="tab"><img-->
+<!--            src="static/images/icon_char_grey.png">不成立-->
+<!--    </div>-->

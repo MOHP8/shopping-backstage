@@ -1,3 +1,448 @@
 ﻿{% extends "base.html" %}
 
-{% block title %}首頁{% endblock %}
+{% block title %}商品管理{% endblock %}
+
+{% block content%}
+<!--    <style>-->
+<!--        #leftMeun {-->
+<!--            display: none;-->
+<!--        }-->
+<!--    </style>-->
+    <div role="tabpanel" class="tab-pane" id="abc">
+        <div class="check-div form-inline">
+            <div class="col-xs-3">
+                <button class="btn btn-yellow btn-xs" data-toggle="modal" data-target="#addProduct">添加</button>
+            </div>
+            <div class="col-lg-4 col-xs-5">
+                <input type="text" class=" form-control input-sm " placeholder="輸入文字搜索">
+                <button class="btn btn-white btn-xs ">查 詢</button>
+            </div>
+            <div class="col-lg-3 col-lg-offset-1 col-xs-3" style="padding-right: 40px;text-align: right;float: right;">
+                <label for="paixu">排序:&nbsp;</label>
+                <select class="form-control">
+                    <option>地区</option>
+                    <option>排名</option>
+                </select>
+            </div>
+        </div>
+        <div class="data-div">
+            <div class="row tableHeader">
+                <div class="col-xs-2 ">
+                    商品編號
+                </div>
+                <div class="col-xs-2 ">
+                    商品種類
+                </div>
+                <div class="col-xs-2">
+                    商品名稱
+                </div>
+                <div class="col-xs-2">
+                    商品庫存
+                </div>
+                <div class="col-xs-2">
+                    商品價格
+                </div>
+                <!--                        <div class="col-xs-2">-->
+                <!--                            人员列表-->
+                <!--                        </div>-->
+                <div class="col-xs-1">
+                    操作
+                </div>
+            </div>
+            {% for product in all_products:%}
+            <div class="tablebody">
+                <div class="row">
+                    <div class="col-xs-2 ">
+                        {{ product.id }}
+                    </div>
+                    <div class="col-xs-2">
+                        {{ product.category }}
+                    </div>
+                    <div class="col-xs-2">
+                        {{ product.name }}
+                    </div>
+                    <div class="col-xs-2">
+                        {{ product.stock }}
+                    </div>
+                    <div class="col-xs-2">
+                        {{ product.price }}
+                    </div>
+                    <!--                            <div class="col-xs-2">-->
+                    <!--                                <a class="linkCcc">查看</a>-->
+                    <!--                            </div>-->
+                    <!--                            <div class="col-xs-2">-->
+                    <!--                                <a class="linkCcc">查看</a>-->
+                    <!--                            </div>-->
+
+                    <div class="col-xs-2">
+                        {% if product.state == 1 %}
+                            <button class="btn btn-success btn-xs editButton" data-toggle="modal" data-target="#reviseProduct"
+                                    data-product-id="{{ product.id }}">修改
+                            </button>
+                            <button class="btn btn-danger btn-xs deleteButton " data-toggle="modal" data-target="#deleteProduct"
+                                    data-delete-id="{{ product.id }}">删除
+                            </button>
+                        {% else %}
+                            <button class="btn border-danger btn-xs restoreButton" data-restore-id="{{ product.id }}">恢复</button>
+                        {% endif %}
+                    </div>
+                </div>
+
+            </div>
+            {% endfor %}
+
+        </div>
+
+        <!-- 弹出添加商品窗口 -->
+        <div class="modal fade" id="addProduct" role="dialog" aria-labelledby="gridSystemModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="gridSystemModalLabel">添加商品</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container-fluid">
+                            <form class="form-horizontal" action="{{ url_for('products.add_product')}}" method="POST"
+                                  enctype="multipart/form-data">
+                                <div class="form-group">
+                                    <label for="productName" class="col-xs-3 control-label">商品名稱：</label>
+                                    <div class="col-xs-8">
+
+                                        <input type="text" class="form-control input-sm duiqi" name="productName"
+                                               placeholder="">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="productCategory" class="col-xs-3 control-label">商品種類：</label>
+                                    <div class="col-xs-8">
+                                        <input type="text" class="form-control input-sm duiqi" name="productCategory"
+                                               placeholder="">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="productStock" class="col-xs-3 control-label">商品庫存：</label>
+                                    <div class="col-xs-8">
+                                        <input type="text" class="form-control input-sm duiqi" name="productStock"
+                                               placeholder="">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="productPrice" class="col-xs-3 control-label">商品單價：</label>
+                                    <div class="col-xs-8">
+                                        <input type="text" class="form-control input-sm duiqi" name="productPrice"
+                                               placeholder="">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="productPic" class="col-xs-3 control-label">商品圖片：</label>
+                                    <div class="col-xs-8">
+                                        <input type="file" name="productPic" accept=".jpg, .jpeg, .png">
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-xs btn-white" data-dismiss="modal">取消</button>
+                                    <button type="submit" class="btn btn-xs btn-green ">保存</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+        <!-- /.modal -->
+
+        <!-- 弹出修改商品窗口 -->
+        <div class="modal fade" id="reviseProduct" role="dialog" aria-labelledby="gridSystemModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="gridSystemModalLabel">修改商品</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container-fluid">
+                            <form class="form-horizontal" method="POST" enctype="multipart/form-data">
+                                <div class="form-group">
+                                    <label for="productName" class="col-xs-3 control-label">商品名稱：</label>
+                                    <div class="col-xs-8">
+                                        <input type="text" class="form-control input-sm duiqi" id="productName"
+                                               placeholder="">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="productCategory" class="col-xs-3 control-label">商品種類：</label>
+                                    <div class="col-xs-8">
+                                        <input type="text" class="form-control input-sm duiqi" id="productCategory"
+                                               placeholder="">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="productStock" class="col-xs-3 control-label">商品庫存：</label>
+                                    <div class="col-xs-8">
+                                        <input type="text" class="form-control input-sm duiqi" id="productStock"
+                                               placeholder="">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="productPrice" class="col-xs-3 control-label">商品單價：</label>
+                                    <div class="col-xs-8">
+                                        <input type="text" class="form-control input-sm duiqi" id="productPrice"
+                                               placeholder="">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="productPic" class="col-xs-3 control-label">商品圖片：</label>
+                                    <div class="col-xs-8">
+                                        <input type="file" id="productPic" name="productPic">
+                                        <img id="previousProductImage" src="" alt="Previous Product Image">
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-xs btn-white" data-dismiss="modal">取消</button>
+                                    <button type="submit" class="btn btn-xs btn-green" id="saveButton">保存</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+        <!-- /.modal -->
+
+        <!-- 弹出删除商品警告窗口 -->
+        <div class="modal fade" id="deleteProduct" role="dialog" aria-labelledby="gridSystemModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="gridSystemModalLabel">提示</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container-fluid">
+                            确定要删除该商品？
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-xs btn-white" data-dismiss="modal">取消</button>
+                        <button type="button" class="btn btn-xs btn-danger confirmDelete">確定</button>
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+        <!-- /.modal -->
+
+        <script>
+            $(document).ready(function () {
+                var productId;
+                var productIdToDelete;
+                var previousImage;
+
+
+
+                // 点击修改按钮时的事件处理
+                $('.editButton').on('click', function () {
+                    // 获取商品 ID
+                    productId = $(this).data('product-id');
+                    console.log(productId);
+                    // alert(productId)
+
+                    // 發送 Ajax 請求獲取商品信息
+                    $.ajax({
+                        url: '{{ url_for('products.get_product_info', product_id=0) }}'.replace(0, productId),
+                        type: 'GET',
+                        success: function (response) {
+                            // 將商品信息填充到修改模態窗口中
+                            $('#productName').val(response.name);
+                            $('#productCategory').val(response.category);
+                            $('#productStock').val(response.stock);
+                            $('#productPrice').val(response.price);
+
+                            // 顯示之前上傳的照片
+                            previousImage = response.image_base64;
+                            if (previousImage) {
+                                // 假設有一個用於顯示圖片的 img 元素，給它設置 src 屬性
+                                $('#previousProductImage').attr('src', 'data:image/png;base64,' + previousImage);
+                            } else {
+                                // 如果 image_base64 為空，可以使用默認的圖片或不進行任何操作
+                                // $('#previousProductImage').attr('src', 'path/to/default/image.jpg');
+                                // 或者留空
+                                $('#previousProductImage').attr('src', '');
+                            }
+
+                            // 保存初始商品信息
+                            originalData = {
+                                ProductName: response.name,
+                                ProductCategory: response.category,
+                                stock: response.stock,
+                                price: response.price,
+                            };
+
+                            // 設置商品 ID 隱藏字段
+                            $('#productId').val(productId);
+
+                            // 顯示修改模態窗口
+                            $('#reviseProduct').modal('show');
+
+                        },
+                        error: function (error) {
+                            console.log(error);
+                            alert('獲取商品信息失敗！');
+                        }
+                    });
+                });
+
+                // 在文件选择框的change事件中实现实时预览
+                $('#productPic').on('change', function () {
+                    var input = this;
+                    var file = input.files[0];
+
+                    // 使用FileReader对象读取文件
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        // 将读取的图片数据显示在页面上
+                        $('#previousProductImage').attr('src', e.target.result);
+                    };
+
+                    // 开始读取文件
+                    reader.readAsDataURL(file);
+                });
+
+                // 点击保存按钮时的事件处理
+                $('#saveButton').on('click', function (e) {
+                    e.preventDefault(); // 阻止表单提交
+
+                    // 获取商品 ID
+                    console.log(productId);
+                    alert(productId);
+
+                    // 获取用户修改后的数据
+                    var modifiedData = {
+                        ProductName: $('#productName').val(),
+                        ProductCategory: $('#productCategory').val(),
+                        stock: $('#productStock').val(),
+                        price: $('#productPrice').val()
+                    };
+
+<!--                    // 过滤出用户有修改的数据-->
+<!--                    var changedData = {};-->
+<!--                        for (var key in modifiedData) {-->
+<!--                            if (originalData[key] !== modifiedData[key]) {-->
+<!--                                changedData[key] = modifiedData[key];-->
+<!--                            }-->
+<!--                        }-->
+
+                    // 创建表单数据对象
+                    var formData = new FormData();
+
+                    // 将修改的数据添加到 formData
+                    for (var key in modifiedData) {
+                        formData.append(key, modifiedData[key]);
+                    }
+
+                    // 将文件添加到 formData
+                    var productPicFile = $('#productPic')[0].files[0];
+
+                    if (productPicFile) {
+                        formData.append('productPic', productPicFile);
+                    } else {
+                        formData.append('image', previousImage);
+                    }
+
+                    console.log(productPicFile);
+                    console.log(previousImage);
+
+                    // 添加时间戳参数
+                    var timestamp = new Date().getTime();
+                    var url = '{{ url_for('products.save_modified_data', product_id=0) }}'.replace(0, productId) + '?t=' + timestamp;
+
+                    // 发送 Ajax 请求将修改过的数据传回后端
+                    $.ajax({
+                        url: url,
+                        type: 'POST',
+                        data: formData,
+                        processData: false,  // 不处理数据
+                        contentType: false,  // 不设置内容类型
+                        success: function (response) {
+                            console.log(response);
+                            alert('保存成功！');
+                            $('#reviseProduct').modal('hide');
+                            location.reload(true);
+
+                        },
+                        error: function (error) {
+                            console.log(error);
+                            alert('保存失败！');
+                        }
+                    });
+                });
+
+
+                // 点击删除按钮时的事件处理
+                $('.deleteButton').on('click', function () {
+                    // 获取商品 ID
+                    productIdToDelete = $(this).data('delete-id');
+                    // alert("delete_id", productIdToDelete);
+                    console.log(productIdToDelete);
+                });
+
+                   // 点击删除按钮时的事件处理
+                $('.confirmDelete').on('click', function () {
+                    console.log(productIdToDelete);
+                    alert(productIdToDelete);
+
+                    // 在这里将 productId 传递到服务端，你可以使用 Ajax 请求
+                    $.ajax({
+                        url:  '{{ url_for('products.delete_product', product_id=0) }}'.replace(0, productIdToDelete),
+                        type: 'POST',
+                        success: function (response) {
+                            console.log(response);
+                            alert('删除成功！')
+                            location.reload();
+                        },
+                        error: function (error) {
+                            console.log(error);
+                            alert('删除失败！');
+                        }
+                    });
+
+                    // 关闭模态窗口
+                    $('#deleteProduct').modal('hide');
+                });
+                 // 给恢复按钮添加点击事件处
+                $('.restoreButton').on('click', function () {
+                    productIdToRestore = $(this).data('restore-id');
+                    console.log(productIdToRestore);
+                    alert(productIdToRestore);
+
+                    // 在这里将 productId 传递到服务端，你可以使用 Ajax 请求
+                    $.ajax({
+                        url: '{{ url_for('products.revive_product', product_id=0) }}'.replace(0, productIdToRestore),
+                        type: 'POST',
+                        success: function (response) {
+                            console.log(response);
+                            alert('恢复成功！');
+                             location.reload();
+                        },
+                        error: function (error) {
+                            console.log(error);
+                            alert('恢复失败！');
+                        }
+                    });
+                });
+            });
+        </script>
+    </div>
+
+{% endblock %}

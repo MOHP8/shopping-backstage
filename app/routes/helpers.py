@@ -7,10 +7,12 @@ import base64
 UPLOAD_FOLDER_NAME = 'uploads'
 UPLOAD_FOLDER = os.path.join("../.", UPLOAD_FOLDER_NAME)
 
-
 ALLOWED_EXTENSIONS = {'jpg', 'jpeg', 'png', 'gif'}
+
+
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
 
 def save_product_image(product_img, product_name):
     if product_img and allowed_file(product_img.filename):
@@ -27,6 +29,11 @@ def save_product_image(product_img, product_name):
         return img_data
     else:
         return None
-    
+
+
+def base64_to_image(base_64_img):
+    return base64.b64decode(base_64_img)
+
+
 def image_to_base64(img_data):
     return base64.b64encode(img_data).decode('utf-8')
