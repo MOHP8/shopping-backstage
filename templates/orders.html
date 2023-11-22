@@ -1,0 +1,242 @@
+{% extends "base.html" %}
+
+{% block title %}商品管理{% endblock %}
+
+{% block content%}
+           <!--地区管理模块-->
+            <div role="tabpanel" class="tab-pane" >
+
+                <div class="check-div form-inline">
+<!--                    <div class="col-xs-3">-->
+<!--                        <button class="btn btn-yellow btn-xs" data-toggle="modal" data-target="#addOrder">添加</button>-->
+<!--                    </div>-->
+                    <div class="col-lg-4 col-xs-5">
+                        <input type="text" class=" form-control input-sm " placeholder="輸入文字搜索">
+                        <button class="btn btn-white btn-xs ">查 詢 </button>
+                    </div>
+                    <div class="col-lg-3 col-lg-offset-1 col-xs-3" style="padding-right: 40px;text-align: right;float: right;">
+                        <label for="paixu">排序:&nbsp;</label>
+                        <select class="form-control">
+                            <option>地区</option>
+                            <option>排名</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="data-div">
+                    <div class="row tableHeader">
+                        <div class="col-xs-2 ">
+                            訂單編號
+                        </div>
+                        <div class="col-xs-2 ">
+                            會員ID
+                        </div>
+                        <div class="col-xs-2">
+                            下單日期
+                        </div>
+                        <div class="col-xs-2">
+                            合計
+                        </div>
+                        <div class="col-xs-2">
+                            訂單狀態
+                        </div>
+                        <div class="col-xs-2">
+                            操作
+                        </div>
+                    </div>
+                    {% for order in all_orders:%}
+                    <div class="tablebody">
+
+                        <div class="row">
+                            <div class="col-xs-2 ">
+                                {{ order.OrderID }}
+                            </div>
+                            <div class="col-xs-2">
+                                {{ order.MemberID}}
+                            </div>
+                            <div class="col-xs-2">
+                                {{ order.OrderDate }}
+                            </div>
+                            <div class="col-xs-2">
+                                {{ order.TotalPrice }}
+                            </div>
+                            <div class="col-xs-2">
+                                {{ order.Status }}
+                            </div>
+<!--                            <div class="col-xs-2">-->
+<!--                                <a class="linkCcc">查看</a>-->
+<!--                            </div>-->
+<!--                            <div class="col-xs-2">-->
+<!--                                <a class="linkCcc">查看</a>-->
+<!--                            </div>-->
+                            <div class="col-xs-2">
+                                <button class="btn btn-danger btn-xs deleteButton" data-toggle="modal" data-target="#deleteOrder" data-delete-id="{{ order.OrderID }}">删除</button>
+                            </div>
+                        </div>
+
+                    </div>
+                    {% endfor %}
+
+                </div>
+
+
+<!--                &lt;!&ndash;弹出添加用户窗口&ndash;&gt;-->
+<!--                <div class="modal fade" id="addProduct" role="dialog" aria-labelledby="gridSystemModalLabel">-->
+<!--                    <div class="modal-dialog" role="document">-->
+<!--                        <div class="modal-content">-->
+<!--                            <div class="modal-header">-->
+<!--                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>-->
+<!--&lt;!&ndash;                                <h4 class="modal-title" id="gridSystemModalLabel">添加地区</h4>&ndash;&gt;-->
+<!--                            </div>-->
+<!--                            <div class="modal-body">-->
+<!--                                <div class="container-fluid">-->
+<!--                                    <form class="form-horizontal">-->
+<!--                                        <div class="form-group ">-->
+<!--                                            <label for="sName" class="col-xs-3 control-label">地区名称：</label>-->
+<!--                                            <div class="col-xs-8 ">-->
+<!--                                                <input type="email" class="form-control input-sm duiqi" id="sName" placeholder="">-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                        <div class="form-group ">-->
+<!--                                            <label for="sName" class="col-xs-3 control-label">经度：</label>-->
+<!--                                            <div class="col-xs-8 ">-->
+<!--                                                <input type="email" class="form-control input-sm duiqi" id="sName" placeholder="">-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                        <div class="form-group">-->
+<!--                                            <label for="sLink" class="col-xs-3 control-label">纬度：</label>-->
+<!--                                            <div class="col-xs-8 ">-->
+<!--                                                <input type="" class="form-control input-sm duiqi" id="sLink" placeholder="">-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                        <div class="form-group">-->
+<!--                                            <label for="sOrd" class="col-xs-3 control-label">简称：</label>-->
+<!--                                            <div class="col-xs-8">-->
+<!--                                                <input type="" class="form-control input-sm duiqi" id="sOrd" placeholder="">-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                    </form>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <div class="modal-footer">-->
+<!--                                <button type="button" class="btn btn-xs btn-white" data-dismiss="modal">取 消</button>-->
+<!--                                <button type="button" class="btn btn-xs btn-green">保 存</button>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                        &lt;!&ndash; /.modal-content &ndash;&gt;-->
+<!--                    </div>-->
+<!--                    &lt;!&ndash; /.modal-dialog &ndash;&gt;-->
+<!--                </div>-->
+<!--                &lt;!&ndash; /.modal &ndash;&gt;-->
+
+<!--                &lt;!&ndash;弹出修改用户窗口&ndash;&gt;-->
+<!--                <div class="modal fade" id="reviseSchool" role="dialog" aria-labelledby="gridSystemModalLabel">-->
+<!--                    <div class="modal-dialog" role="document">-->
+<!--                        <div class="modal-content">-->
+<!--                            <div class="modal-header">-->
+<!--                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>-->
+<!--                                <h4 class="modal-title" id="gridSystemModalLabel">修改地区</h4>-->
+<!--                            </div>-->
+<!--                            <div class="modal-body">-->
+<!--                                <div class="container-fluid">-->
+<!--                                    <form class="form-horizontal">-->
+<!--                                        <div class="form-group ">-->
+<!--                                            <label for="sName" class="col-xs-3 control-label">地区名称：</label>-->
+<!--                                            <div class="col-xs-8 ">-->
+<!--                                                <input type="email" class="form-control input-sm duiqi" id="sName" placeholder="">-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                        <div class="form-group ">-->
+<!--                                            <label for="sName" class="col-xs-3 control-label">经度：</label>-->
+<!--                                            <div class="col-xs-8 ">-->
+<!--                                                <input type="email" class="form-control input-sm duiqi" id="sName" placeholder="">-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                        <div class="form-group">-->
+<!--                                            <label for="sLink" class="col-xs-3 control-label">纬度：</label>-->
+<!--                                            <div class="col-xs-8 ">-->
+<!--                                                <input type="" class="form-control input-sm duiqi" id="sLink" placeholder="">-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                        <div class="form-group">-->
+<!--                                            <label for="sOrd" class="col-xs-3 control-label">简称：</label>-->
+<!--                                            <div class="col-xs-8">-->
+<!--                                                <input type="" class="form-control input-sm duiqi" id="sOrd" placeholder="">-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                    </form>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <div class="modal-footer">-->
+<!--                                <button type="button" class="btn btn-xs btn-white" data-dismiss="modal">取 消</button>-->
+<!--                                <button type="button" class="btn btn-xs btn-green">保 存</button>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                        &lt;!&ndash; /.modal-content &ndash;&gt;-->
+<!--                    </div>-->
+<!--                    &lt;!&ndash; /.modal-dialog &ndash;&gt;-->
+<!--                </div>-->
+<!--                &lt;!&ndash; /.modal &ndash;&gt;-->
+
+                <!--弹出删除用户警告窗口-->
+                <div class="modal fade" id="deleteOrder" role="dialog" aria-labelledby="gridSystemModalLabel">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title" id="gridSystemModalLabel">提示</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="container-fluid">
+                                    确定要删除該筆訂單？
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-xs btn-white" data-dismiss="modal">取 消</button>
+                                <button type="button" class="btn btn-xs btn-danger confirmDelete">確定</button>
+                            </div>
+                        </div>
+                        <!-- /.modal-content -->
+                    </div>
+                    <!-- /.modal-dialog -->
+                </div>
+                <!-- /.modal -->
+                <script>
+                    $(document).ready(function () {
+                        var orderId;
+                        var orderIdToDelete;
+                          // 点击删除按钮时的事件处理
+                        $('.deleteButton').on('click', function () {
+                            // 获取商品 ID
+                            orderIdToDelete = $(this).data('delete-id');
+                            // alert("delete_id", orderIdToDelete);
+                            console.log(orderIdToDelete);
+                        });
+
+                           // 点击删除按钮时的事件处理
+                        $('.confirmDelete').on('click', function () {
+                            console.log(orderIdToDelete);
+                            alert(orderIdToDelete);
+
+                            // 在这里将 orderId 传递到服务端，你可以使用 Ajax 请求
+                            $.ajax({
+                                url:  '{{ url_for('orders.delete_order', order_id=0) }}'.replace(0, orderIdToDelete),
+                                type: 'POST',
+                                success: function (response) {
+                                    console.log(response);
+                                    alert('删除成功！')
+                                    location.reload();
+                                },
+                                error: function (error) {
+                                    console.log(error);
+                                    alert('删除失败！');
+                                }
+                            });
+
+                            // 关闭模态窗口
+                            $('#deleteProduct').modal('hide');
+                        });
+                    });
+                </script>
+            </div>
+
+{% endblock %}
