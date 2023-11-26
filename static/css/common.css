@@ -40,7 +40,7 @@ body {
 	height: 100%;
 	background: #4d5e70 bottom;
 }
-.leftMeun >div {
+.leftMeun > div {
 	padding-left: 20px;
 }
 #rightContent {
@@ -91,6 +91,20 @@ body {
 	color: #B3BCC5;
 	text-decoration: underline;
 }
+
+#login&out {
+	padding: 10px 5px 10px;
+	margin: 0 5px;
+	color: #b3bcc5;
+	border-bottom: 1px solid #354457;
+}
+
+#login&out a {
+	color: #aab1b7;
+	display: block;
+     font-weight: bold;
+
+}
 #userName {
 	font-size: 15px!important;
 	padding: 0;
@@ -134,7 +148,6 @@ body {
 	color: #fff;
 }
 /*右侧具体内容栏目*/
-
 .check-div {
 	height: 70px;
 	line-height: 70px;

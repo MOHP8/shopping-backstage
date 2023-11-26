@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+<style>
+    body {
+        background-color: #f4f4f4;
+    }
+    .login-container {
+        max-width: 400px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #ffffff;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+    .input-group{
+        margin-bottom: 30px;
+    }
+
+    .input-group .custom-width {
+        margin: 0 auto;
+        width: 360px ; /* 根據需要調整寬度值 */
+    }
+
+    .login-container button{
+        background: #4d5e70 bottom;
+    }
+    .mb-3 a{
+       color: #4d5e70;
+    }
+
+</style>
+<body>
+<div class="container mt-2">
+    <div class="row">
+        <div class="col-12">
+            <div class="d-flex justify-content-center">
+                <div class="login-container">
+                    <h3 class="text-center mb-2">註冊</h3>
+                    <form method="POST" action="{{ url_for('main.register') }}">
+                        <div class="mb-3">
+                            <label for="username" class="form-label">使用者名稱</label>
+                            <input type="text" id="username" name="username" class="form-control"
+                                   value="{{ original_data.username }}" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">郵箱 (帳號)</label>
+                            <input type="email" name="email" id="email" class="form-control"
+                                   value="{{ original_data.email }}" required>
+                        </div>
+                        <div class="input-group">
+                            <div class="mb-3">
+                                <label for="password" class="form-label">密碼</label>
+
+                                    <input type="password" id="password" name="password" class="form-control custom-width" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="confirm_password" class="form-label">確認密碼</label>
+                                    <input type="password" id="confirm_password" name="confirm_password" class="form-control custom-width" required>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary btn-block" type="submit">註冊</button>
+                        <div class="mb-3">
+                            <a href="{{ url_for('main.login') }}">返回登入</a>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+            <div class="alert alert-warning">
+                <ul>
+                    {% for message in messages %}
+                    <li>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+            {% endwith %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+{% block footer %} {% endblock %}

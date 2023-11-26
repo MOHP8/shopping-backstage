@@ -1,13 +1,13 @@
 {% extends "base.html" %}
 
-{% block title %}商品管理{% endblock %}
+{% block title %}員工管理{% endblock %}
 
 {% block content%}
           <!--用户管理模块-->
             <div role="tabpanel" class="tab-pane" id="user">
                 <div class="check-div form-inline">
                     <div class="col-xs-3">
-                        <button class="btn btn-yellow btn-xs" data-toggle="modal" data-target="#addUser">添加用戶</button>
+                        <button class="btn btn-yellow btn-xs" data-toggle="modal" data-target="#addUser">添加</button>
                     </div>
                     <div class="col-xs-4">
                         <input type="text" class="form-control input-sm" placeholder="输入文字搜索">
@@ -47,24 +47,21 @@
                         </div>
                     </div>
 
-                    {% for member in all_members:%}
+                    {% for staff in all_staffs:%}
                     <div class="tablebody">
                         <div class="row">
                             <div class="col-xs-2 ">
-                                {{ member.MemberID }}
+                                {{ staff.StaffID }}
                             </div>
                             <div class="col-xs-2">
-                                {{ member.MemberName}}
+                                {{ staff.StaffName}}
                             </div>
                             <div class="col-xs-4">
-                                {{ member.Email }}
+                                {{ staff.Email }}
                             </div>
                             <div class="col-xs-2">
-                                {{ member.RegistrationDate }}
+                                {{ staff.RegistrationDate }}
                             </div>
-<!--                            <div class="col-xs-2">-->
-<!--                                {{ member.Status }}-->
-<!--                            </div>-->
 <!--                            <div class="col-xs-2">-->
 <!--                                <a class="linkCcc">查看</a>-->
 <!--                            </div>-->
@@ -72,18 +69,32 @@
 <!--                                <a class="linkCcc">查看</a>-->
 <!--                            </div>-->
                             <div class="col-xs-2">
-                                {% if member.State == 1 %}
-                                    <button class="btn btn-success btn-xs editButton" data-toggle="modal" data-target="#reviseMember" data-product-id="{{ member.MemberID }}">修改
+                                {% if staff.State == 1 %}
+                                    <button class="btn btn-success btn-xs editButton" data-toggle="modal" data-target="#reviseStaff" data-product-id="{{ staff.StaffID }}">修改
                                     </button>
-                                    <button class="btn btn-danger btn-xs deleteButton " data-toggle="modal" data-target="#deleteMember"
-                                        data-delete-id="{{  member.MemberID }}">删除</button>
+                                    <button class="btn btn-danger btn-xs deleteButton " data-toggle="modal" data-target="#deleteStaff"
+                                        data-delete-id="{{  staff.StaffID }}">删除</button>
                                 {% else %}
-                                    <button class="btn border-danger btn-xs restoreButton" data-restore-id="{{  member.MemberID }}">恢复</button>
+                                    <button class="btn border-danger btn-xs restoreButton" data-restore-id="{{  staff.StaffID }}">恢复</button>
                                 {% endif %}
                             </div>
                         </div>
                     </div>
                     {% endfor %}
+                    <div class=" tablebody col-12">
+                        {% with messages = get_flashed_messages() %}
+                            {% if messages %}
+                                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                    <ul>
+                                        {% for message in messages %}
+                                        <li>{{ message }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            {% endif %}
+                        {% endwith %}
+                    </div>
+
 
 
 
@@ -97,11 +108,11 @@
                         <div class="modal-content">
                             <div class="modal-header">
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                <h4 class="modal-title" id="gridSystemModalLabel">添加</h4>
+                                <h4 class="modal-title" id="gridSystemModalLabel">添加用戶</h4>
                             </div>
                             <div class="modal-body">
                                 <div class="container-fluid">
-                                    <form class="form-horizontal"  action="{{ url_for('members.add_member') }}" method="post">
+                                    <form class="form-horizontal"  action="{{ url_for('staffs.add_staff') }}" method="post">
 <!--                                        <div class="form-group ">-->
 <!--                                            <label for="sName" class="col-xs-3 control-label">用戶名：</label>-->
 <!--                                            <div class="col-xs-8 ">-->
@@ -109,32 +120,42 @@
 <!--                                            </div>-->
 <!--                                        </div>-->
                                         <div class="form-group">
-                                            <label for="sLink" class="col-xs-3 control-label">姓名：</label>
+                                            <label for="staffname" class="col-xs-3 control-label">姓名：</label>
                                             <div class="col-xs-8 ">
-                                                <input  name="username" type="text" class="form-control input-sm duiqi" id="sLink" placeholder="">
+                                                <input  name="username" type="text" class="form-control input-sm duiqi" id="staffname" placeholder="">
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label for="sOrd" class="col-xs-3 control-label">信箱：</label>
+                                            <label for="email" class="col-xs-3 control-label">信箱：</label>
                                             <div class="col-xs-8">
-                                                <input  name="email" type="email" class="form-control input-sm duiqi" id="sOrd" placeholder="">
+                                                <input  name="email" type="email" class="form-control input-sm duiqi" id="email" placeholder="">
+                                            </div>
+                                        </div>
+                                          <div class="form-group">
+                                            <label for="pwd" class="col-xs-3 control-label">密碼：</label>
+                                            <div class="col-xs-8">
+                                                <input  name="password" type="password" class="form-control input-sm duiqi" id="pwd" placeholder="">
+                                                <i class="far fa-eye"></i>
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label for="sKnot" class="col-xs-3 control-label">電話：</label>
+                                            <label for="confirm-pwd" class="col-xs-3 control-label">再次確認：</label>
                                             <div class="col-xs-8">
-                                                <input  name="phone" type="text" class="form-control input-sm duiqi" id="sKnot" placeholder="">
+                                                <input  name="confirm_password" type="password" class="form-control input-sm duiqi" id="confirm-pwd" placeholder="">
+                                                <i class="far fa-eye"></i>
                                             </div>
                                         </div>
-                                        <div class="form-group">
-                                            <label for="situation" class="col-xs-3 control-label">狀態：</label>
-                                            <div class="col-xs-8">
-                                                <label class="control-label" for="anniu">
-                                                    <input type="radio" name="situation" value="normal">正常</label> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                                <label class="control-label" for="meun">
-                                                    <input type="radio" name="situation" value="forbid">禁用</label>
-                                            </div>
-                                        </div>
+
+
+                                        <!--                                        <div class="form-group">-->
+<!--                                            <label for="situation" class="col-xs-3 control-label">狀態：</label>-->
+<!--                                            <div class="col-xs-8">-->
+<!--                                                <label class="control-label" for="anniu">-->
+<!--                                                    <input type="radio" name="situation" value="normal">正常</label> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-->
+<!--                                                <label class="control-label" for="meun">-->
+<!--                                                    <input type="radio" name="situation" value="forbid">禁用</label>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-xs btn-white" data-dismiss="modal">取 消</button>
                                             <button type="submit" class="btn btn-xs btn-green">保 存</button>
@@ -154,7 +175,7 @@
                 <!-- /.modal -->
 
                 <!--弹出修改用户窗口-->
-                <div class="modal fade" id="reviseMember" role="dialog" aria-labelledby="gridSystemModalLabel">
+                <div class="modal fade" id="reviseStaff" role="dialog" aria-labelledby="gridSystemModalLabel">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -182,18 +203,7 @@
                                                 <input type="" class="form-control input-sm duiqi" id="sOrd" placeholder="">
                                             </div>
                                         </div>
-                                        <div class="form-group">
-                                            <label for="sKnot" class="col-xs-3 control-label">电话：</label>
-                                            <div class="col-xs-8">
-                                                <input type="" class="form-control input-sm duiqi" id="sKnot" placeholder="">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="sKnot" class="col-xs-3 control-label">地区：</label>
-                                            <div class="col-xs-8">
-                                                <input type="" class="form-control input-sm duiqi" id="sKnot" placeholder="">
-                                            </div>
-                                        </div>
+
                                         <div class="form-group">
                                             <label for="sKnot" class="col-xs-3 control-label">权限：</label>
                                             <div class="col-xs-8">
@@ -224,7 +234,7 @@
                 <!-- /.modal -->
 
                 <!--弹出删除用户警告窗口-->
-                <div class="modal fade" id="deleteMember" role="dialog" aria-labelledby="gridSystemModalLabel">
+                <div class="modal fade" id="deleteStaff" role="dialog" aria-labelledby="gridSystemModalLabel">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -248,24 +258,33 @@
                 <!-- /.modal -->
                 <script>
                     $(document).ready(function () {
-                        var memberId;
-                        var memberIdToDelete;
+                        var staffId;
+                        var staffIdToDelete;
+
+                         {% with messages = get_flashed_messages() %}
+                            {% if messages %}
+                                {% for message in messages %}
+                                     alert('{{ message }}');
+                                {% endfor %}
+                            {% endif %}
+                         {% endwith %}
+
                           // 点击删除按钮时的事件处理
                         $('.deleteButton').on('click', function () {
                             // 获取商品 ID
-                            memberIdToDelete = $(this).data('delete-id');
-                            // alert("delete_id", memberIdToDelete);
+                            staffIdToDelete = $(this).data('delete-id');
+                            // alert("delete_id",staffIdToDelete);
                             console.log(orderIdToDelete);
                         });
 
                            // 点击删除按钮时的事件处理
                         $('.confirmDelete').on('click', function () {
-                            console.log(memberIdToDelete);
-                            alert(memberIdToDelete);
+                            console.log(staffIdToDelete);
+                            alert(staffIdToDelete);
 
                             // 在这里将 orderId 传递到服务端，你可以使用 Ajax 请求
                             $.ajax({
-                                url:  '{{ url_for('members.delete_member', member_id=0) }}'.replace(0, memberIdToDelete),
+                                url:  '{{ url_for('staffs.delete_staff', staff_id=0) }}'.replace(0, staffIdToDelete),
                                 type: 'POST',
                                 success: function (response) {
                                     console.log(response);
@@ -283,13 +302,13 @@
                         });
                         // 给恢复按钮添加点击事件处
                         $('.restoreButton').on('click', function () {
-                            memberIdToRestore = $(this).data('restore-id');
-                            console.log(memberIdToRestore);
-                            alert(memberIdToRestore);
+                            staffIdToRestore = $(this).data('restore-id');
+                            console.log(staffIdToRestore);
+                            alert(staffIdToRestore);
 
-                            // 在这里将 memberId 传递到服务端，你可以使用 Ajax 请求
+                            // 在这里将 staffId 传递到服务端，你可以使用 Ajax 请求
                             $.ajax({
-                                url: '{{ url_for('members.revive_member',member_id=0) }}'.replace(0, memberIdToRestore),
+                                url: '{{ url_for('staffs.revive_staff',staff_id=0) }}'.replace(0, staffIdToRestore),
                                 type: 'POST',
                                 success: function (response) {
                                     console.log(response);
@@ -303,6 +322,7 @@
                             });
                         });
                     });
+
                 </script>
             </div>
 

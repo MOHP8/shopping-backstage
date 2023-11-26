@@ -7,6 +7,7 @@ import pandas as pd
 from datetime import datetime
 import base64
 from app.routes.helpers import save_product_image, UPLOAD_FOLDER, allowed_file, base64_to_image
+from app.routes.main_bp import login_required
 
 products = Blueprint('products', __name__)
 database = Database()
@@ -15,6 +16,7 @@ database = Database()
 # UPLOAD_FOLDER = 'uploads
 
 @products.route('/products')
+@login_required
 def all_products():
     select_query = f"SELECT * FROM Products"
     all_products = database.get_data(select_query)
@@ -49,9 +51,9 @@ def add_product():
 
             # 将图片的二进制数据保存到数据库
             insert_product_query = f"INSERT INTO Products (UUID, ProductCategory, ProductName, Stock, Price, Image, ProductDate, UpdateDate, State) " \
-                                   f"VALUES (%s, %s, %s, %s, %s, %s, %s, Null, 1);"
+                                   f"VALUES (%s, %s, %s, %s, %s, %s,  NOW(), Null, 1);"
 
-            database.insert_data(insert_product_query, (uuid, product_category, product_name, product_stock, product_price, img_data, current_date ))
+            database.insert_data(insert_product_query, (uuid, product_category, product_name, product_stock, product_price, img_data))
 
             return redirect(url_for('main.home'))
 
@@ -107,7 +109,7 @@ def save_modified_data(product_id):
     print(product_name)
     print(img_data)
 
-    current_date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    # current_date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     update_columns = [key for key in modified_data.keys()]
 
     print("modified", modified_data)
@@ -142,7 +144,6 @@ def delete_product(product_id):
     print("delete", product_id)
     try:
         if product_id:
-            current_date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             conn, cursor = database.connect_mysql()
             update_query = f"UPDATE Products SET State = 2  WHERE ProductID = {product_id};"
             cursor.execute(update_query)
@@ -158,9 +159,9 @@ def delete_product(product_id):
 def revive_product(product_id):
     print("revive", product_id)
     if product_id:
-        current_date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        # current_date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         conn, cursor = database.connect_mysql()
-        update_query = f"UPDATE Products SET State = 1, UpdateDate = '{current_date}'  WHERE ProductID = {product_id};"
+        update_query = f"UPDATE Products SET State = 1, UpdateDate = NOW()  WHERE ProductID = {product_id};"
         cursor.execute(update_query)
         conn.commit()
         return jsonify({'message': 'Data saved successfully'})

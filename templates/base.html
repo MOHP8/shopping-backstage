@@ -13,23 +13,6 @@
     <script src="static/js/jquery.min.js"></script>
     <script src="static/js/bootstrap.min.js"></script>
     <script>
-<!--        $(function() {-->
-<!--            var url = '{{ url_for('main.left_menu') }}';-->
-<!--            console.log("AJAX URL:", url);-->
-<!--            if (!$.trim($('#leftMeun').html())) {-->
-<!--                // 左侧菜单栏未加载时才进行加载-->
-<!--                $.get('{{ url_for('main.left_menu') }}', function(response) {-->
-<!--                    $('#leftMeun').html(response);-->
-<!--&lt;!&ndash;                    console.log("Server response:", response);&ndash;&gt;-->
-<!--                }).fail(function(error) {-->
-<!--                    console.log("Error loading left menu:", error);-->
-<!--                });-->
-<!--            } else {-->
-<!--                // 提示已经有值了-->
-<!--                alert('已经有值了！');-->
-
-<!--            }-->
-<!--         });-->
         $(document).on("click", ".meun-item", function() {
             var url = $(this).data('url');
             window.location.href = url;
@@ -76,6 +59,7 @@
     <link rel="stylesheet" type="text/css" href="static/css/bootstrap.min.css"/>
     <link rel="stylesheet" type="text/css" href="static/css/flat-ui.min.css"/>
     <link rel="stylesheet" type="text/css" href="static/css/jquery.nouislider.css">
+
 </head>
 <body>
 
@@ -87,22 +71,32 @@
         <div id="logoDiv">
             <p id="logoP"><img id="logo" alt="左右结构项目" src="static/images/logo.png"><span>訂單商品管理</span></p>
         </div>
+        {% if 'user_info' in session %}
         <div id="personInfor">
-            <p id="userName">登錄名稱</p>
+            <p id="userName"> 歡迎回來，{{ session['user_info']['StaffName'] }}！</p>
             <p><span></span></p>
             <p>
-                <a>退出登录</a>
+                <a href="{{ url_for('main.logout') }}">登出</a>
             </p>
         </div>
-        <div class="meun-title">帳號管理</div>
+        {% else %}
+          <!-- 用戶已登入,顯示用戶名和登出選項 -->
+        <div class="meun-item ">
+            <a href="{{ url_for('main.login') }}">登入</a>
+        </div>
+        {% endif %}
+<!--        <div class="meun-title">帳號管理</div>-->
         <div class="meun-item" href="#sour" aria-controls="sour" role="tab" data-toggle="tab"><img
                 src="static/images/icon_source.png">資源管理
         </div>
         <div class="meun-item" href="#char" aria-controls="char" role="tab" data-toggle="tab"><img
                 src="static/images/icon_chara_grey.png">權限管理
         </div>
-        <div class="meun-item" href="#user" aria-controls="user" role="tab" data-toggle="tab"><img
+        <div class="meun-item" data-url="{{ url_for('members.all_members') }}"><img
                 src="static/images/icon_user_grey.png">會員管理
+        </div>
+        <div class="meun-item" data-url="{{ url_for('staffs.all_staffs') }}"><img
+                src="static/images/icon_user_grey.png">員工管理
         </div>
         <div class="meun-item" href="#chan" aria-controls="chan" role="tab" data-toggle="tab"><img
                 src="static/images/icon_change_grey.png">修改密碼
@@ -148,7 +142,7 @@
         </div>
         </div>
     </div>
-
+    {% block footer %}
     <!--页码块-->
     <footer class="footer">
         <ul class="pagination">
@@ -180,6 +174,7 @@
             </li>
         </ul>
     </footer>
+    {% endblock %}
 </div>
 
 </body>
